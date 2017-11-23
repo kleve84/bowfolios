@@ -46,6 +46,7 @@ if (Meteor.isServer) {
       expect(doc.username).to.equal(username);
       expect(doc.bio).to.equal(bio);
       expect(doc.interests[0]).to.equal(interestName);
+      expect(function foo() { Interests.define(defineObject); }).to.throw(Error);
       expect(doc.picture).to.equal(picture);
       expect(doc.title).to.equal(title);
       expect(doc.location).to.equal(location);
@@ -67,15 +68,15 @@ if (Meteor.isServer) {
 
     it('#define (illegal interest)', function test() {
       const illegalInterests = ['foo'];
+      const username2 = 'phillipmjohnson';
       const defineObject2 = {
-        firstName, lastName, username, bio, interests: illegalInterests, picture, title, location,
+        firstName, lastName, username2, bio, interests: illegalInterests, picture, title, location,
         github, facebook, instagram,
       };
       expect(function foo() {
         Profiles.define(defineObject2);
       }).to.throw(Error);
     });
-
     it('#define (duplicate interests)', function test() {
       const duplicateInterests = [interestName, interestName];
       const defineObject3 = {
